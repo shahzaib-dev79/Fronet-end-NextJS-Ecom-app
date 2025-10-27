@@ -1,6 +1,6 @@
 "use client";
 import axios from "axios";
-import Image from "next/image";
+import { jwtDecode } from "jwt-decode";
 import { useState } from "react";
 
 export default function Home() {
@@ -19,19 +19,26 @@ export default function Home() {
 	}
 	async function submitHandler(e) {
 		e.preventDefault();
-		const res = await axios
-			.post(`${process.env.NEXT_PUBLIC_BACKEND_URL}/register-user`, user)
-			// .post(`http://localhost:8000/api/v1/register-user`, user)
-			.then(
-				setUser({
-					firstName: "",
-					lastName: "",
-					email: "",
-					password: "",
-					confirmPassword: "",
-				})
-			);
-		alert(res.data.msg);
+		try {
+			const res = await axios
+				.post(`${process.env.NEXT_PUBLIC_BACKEND_URL}/register-user`, user)
+				.then(
+					setUser({
+						firstName: "",
+						lastName: "",
+						email: "",
+						password: "",
+						confirmPassword: "",
+					})
+				);
+			console.log(res);
+			const decode = jwtDecode(res.data.token);
+			console.log(decode);
+			console.log(res.response.data.msg);
+			alert(res.response.data.msg);
+		} catch (error) {
+			alert(error.response.data.msg);
+		}
 	}
 
 	return (
