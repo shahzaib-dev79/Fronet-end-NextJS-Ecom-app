@@ -1,65 +1,144 @@
+"use client";
+import axios from "axios";
 import Image from "next/image";
+import { useState } from "react";
 
 export default function Home() {
-  return (
-    <div className="flex min-h-screen items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex min-h-screen w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.js file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
-        </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
-        </div>
-      </main>
-    </div>
-  );
+	const [user, setUser] = useState({
+		firstName: "",
+		lastName: "",
+		email: "",
+		password: "",
+		confirmPassword: "",
+	});
+
+	function changeHandler(e) {
+		const name = e.target.name;
+		const value = e.target.value;
+		setUser((prev) => ({ ...prev, [name]: value }));
+	}
+	async function submitHandler(e) {
+		e.preventDefault();
+		const res = await axios
+			.post(`${process.env.NEXT_PUBLIC_BACKEND_URL}/register-user`, user)
+			// .post(`http://localhost:8000/api/v1/register-user`, user)
+			.then(
+				setUser({
+					firstName: "",
+					lastName: "",
+					email: "",
+					password: "",
+					confirmPassword: "",
+				})
+			);
+		alert(res.data.msg);
+	}
+
+	return (
+		<section className="text-gray-600 body-font relative">
+			<div className="container px-5 py-24 mx-auto">
+				<div className="flex flex-col text-center w-full mb-12">
+					<h1 className="sm:text-3xl text-2xl font-medium title-font mb-4 text-gray-900">
+						Register User
+					</h1>
+				</div>
+				<form className="lg:w-1/2 md:w-2/3 mx-auto" onSubmit={submitHandler}>
+					<div className="flex flex-wrap -m-2">
+						<div className="p-2 w-full">
+							<div className="relative">
+								<label
+									htmlFor="name"
+									className="leading-7 text-sm text-gray-600">
+									First Name
+								</label>
+								<input
+									type="text"
+									id="firstName"
+									name="firstName"
+									value={user.firstName}
+									onChange={changeHandler}
+									className="w-full bg-gray-100 bg-opacity-50 rounded border border-gray-300 focus:border-indigo-500 focus:bg-white focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out"
+								/>
+							</div>
+						</div>
+						<div className="p-2 w-1/2">
+							<div className="relative">
+								<label
+									htmlFor="lastName"
+									className="leading-7 text-sm text-gray-600">
+									Last Name
+								</label>
+								<input
+									type="text"
+									id="lastName"
+									name="lastName"
+									value={user.lastName}
+									onChange={changeHandler}
+									className="w-full bg-gray-100 bg-opacity-50 rounded border border-gray-300 focus:border-indigo-500 focus:bg-white focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out"
+								/>
+							</div>
+						</div>
+						<div className="p-2 w-1/2">
+							<div className="relative">
+								<label
+									htmlFor="email"
+									className="leading-7 text-sm text-gray-600">
+									Email
+								</label>
+								<input
+									type="email"
+									id="email"
+									name="email"
+									value={user.email}
+									onChange={changeHandler}
+									className="w-full bg-gray-100 bg-opacity-50 rounded border border-gray-300 focus:border-indigo-500 focus:bg-white focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out"
+								/>
+							</div>
+						</div>
+						<div className="p-2 w-1/2">
+							<div className="relative">
+								<label
+									htmlFor="password"
+									className="leading-7 text-sm text-gray-600">
+									Password
+								</label>
+								<input
+									type="password"
+									id="password"
+									name="password"
+									value={user.password}
+									onChange={changeHandler}
+									className="w-full bg-gray-100 bg-opacity-50 rounded border border-gray-300 focus:border-indigo-500 focus:bg-white focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out"
+								/>
+							</div>
+						</div>
+						<div className="p-2 w-1/2">
+							<div class="relative">
+								<label
+									htmlFor="confirmPassword"
+									class="leading-7 text-sm text-gray-600">
+									Confirm Password
+								</label>
+								<input
+									type="password"
+									id="confirmPassword"
+									name="confirmPassword"
+									value={user.confirmPassword}
+									onChange={changeHandler}
+									class="w-full bg-gray-100 bg-opacity-50 rounded border border-gray-300 focus:border-indigo-500 focus:bg-white focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out"
+								/>
+							</div>
+						</div>
+						<div className="p-2 w-full">
+							<button
+								type="submit"
+								className="flex mx-auto text-white bg-indigo-500 border-0 py-2 px-8 focus:outline-none hover:bg-indigo-600 rounded text-lg">
+								Register User
+							</button>
+						</div>
+					</div>
+				</form>
+			</div>
+		</section>
+	);
 }
