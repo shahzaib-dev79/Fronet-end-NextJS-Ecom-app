@@ -32,10 +32,8 @@ export default function Home() {
 					})
 				);
 			console.log(res);
-			const decode = jwtDecode(res.data.token);
-			console.log(decode);
-			console.log(res.response.data.msg);
-			alert(res.response.data.msg);
+			console.log(res.data.msg);
+			alert(res.data.msg);
 		} catch (error) {
 			alert(error.response.data.msg);
 		}
