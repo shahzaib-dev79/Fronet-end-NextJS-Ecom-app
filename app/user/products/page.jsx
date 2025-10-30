@@ -1,19 +1,21 @@
 "use client";
-import Card from "@/app/components/Card";
-import React, { useState } from "react";
+import Card from "../../components/Card";
+import axios from "axios";
+import React, { useEffect, useState } from "react";
 
 export default function page() {
 	const [productData, setProducts] = useState([]);
 	async function getProducts() {
 		const product = await axios
 			.get(`${process.env.NEXT_PUBLIC_BACKEND_URL}/products`)
-			.then(
-				console
-					.log("Products fetched successfully")
-					.catch((err) => console.log("Error occured in fetching data", err))
-			);
-		setProducts(product.data);
+			.then(console.log("Products fetched successfully"))
+			.catch((err) => console.log("Error occured in fetching data", err));
+		setProducts(product.data.products);
 	}
+	useEffect(() => {
+		getProducts();
+	}, []);
+
 	return (
 		<div>
 			<div className="text-center mt-15 mb-20">
@@ -28,6 +30,7 @@ export default function page() {
 							price={myProducts.price}
 							image={myProducts.image}
 							category={myProducts.category}
+							key={myProducts._id}
 						/>
 					);
 				})}
