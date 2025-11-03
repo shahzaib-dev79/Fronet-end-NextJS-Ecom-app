@@ -1,8 +1,10 @@
 "use client";
 import axios from "axios";
 import React, { useState } from "react";
+import { useRouter } from "next/navigation";
 
 export default function page() {
+	const router = useRouter();
 	const [product, setProduct] = useState({
 		title: "",
 		description: "",
@@ -20,8 +22,8 @@ export default function page() {
 		e.preventDefault();
 		try {
 			const res = await axios
-				.post(`${process.env.NEXT_PUBLIC_BACKEND_URL}/create-products`, product)
-				.then(
+				.post(`${process.env.NEXT_PUBLIC_BACKEND_URL}/create-product`, product);
+				(
 					setProduct({
 						title: "",
 						description: "",
@@ -30,6 +32,8 @@ export default function page() {
 						image: "",
 					})
 				);
+				    router.push("/admin/admin-panel");
+
 			console.log(res);
 			console.log(res.data.msg);
 			alert(res.data.msg);
