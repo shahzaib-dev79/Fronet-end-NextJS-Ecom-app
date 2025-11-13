@@ -24,14 +24,29 @@ export default function page() {
 			<div className="flex flex-wrap gap-5  m-auto justify-center">
 				{productData.map((myProducts) => {
 					return (
-						<Card
-							title={myProducts.title}
-							desc={myProducts.description}
-							price={myProducts.price}
-							image={myProducts.image}
-							category={myProducts.category}
-							key={myProducts._id}
-						/>
+						<div class="w-[23%] sm:max-w-sm border border-gray-300 rounded-3xl ">
+							<figure>
+								<img
+									src={myProducts.image}
+									alt="Watch"
+									className="rounded-t-3xl h-[300px]"
+								/>
+							</figure>
+							<div class=" p-5">
+								<h5 class="text-lg font-semibold mb-2.5">{myProducts.title}</h5>
+								<p class="mb-4">{myProducts.desc}</p>
+								<h3 className="font-semibold text-3xl">{myProducts.price}$</h3>
+								<h3 className=" text-xl">{myProducts.category}$</h3>
+								<div className="flex gap-4 mt-3">
+									<button className=" rounded-md p-3 text-center bg-orange-600 cursor-pointer text-black font-semibold active:bg-orange-700 outline-0">
+										Buy Now
+									</button>
+									<button className="rounded-md p-3 text-center bg-blue-900 cursor-pointer text-white active:bg-blue-950">
+										Add to cart
+									</button>
+								</div>
+							</div>
+						</div>
 					);
 				})}
 			</div>

@@ -10,6 +10,7 @@ export default function Home() {
 		email: "",
 		password: "",
 		confirmPassword: "",
+		role: "",
 	});
 
 	function changeHandler(e) {
@@ -21,7 +22,7 @@ export default function Home() {
 		e.preventDefault();
 		try {
 			const res = await axios
-				.post(`${process.env.NEXT_PUBLIC_BACKEND_URL}/register-user`, user)
+				.post(`${process.env.NEXT_PUBLIC_BACKEND_URL}/register`, user)
 				.then(
 					setUser({
 						firstName: "",
@@ -29,6 +30,7 @@ export default function Home() {
 						email: "",
 						password: "",
 						confirmPassword: "",
+						role: "",
 					})
 				);
 			console.log(res);

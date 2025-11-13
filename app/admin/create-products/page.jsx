@@ -21,18 +21,18 @@ export default function page() {
 	async function submitHandler(e) {
 		e.preventDefault();
 		try {
-			const res = await axios
-				.post(`${process.env.NEXT_PUBLIC_BACKEND_URL}/create-product`, product);
-				(
-					setProduct({
-						title: "",
-						description: "",
-						price: "",
-						category: "",
-						image: "",
-					})
-				);
-				    router.push("/admin/admin-panel");
+			const res = await axios.post(
+				`${process.env.NEXT_PUBLIC_BACKEND_URL}/create-product`,
+				product
+			);
+			setProduct({
+				title: "",
+				description: "",
+				price: "",
+				category: "",
+				image: "",
+			});
+			router.push("/admin/admin-panel");
 
 			console.log(res);
 			console.log(res.data.msg);
