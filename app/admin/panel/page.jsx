@@ -1,8 +1,8 @@
-/*"use client";
+"use client";
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 
-export default function page() {
+export default function Page() {
 	const [data, setData] = useState({
 		user: { name: "", email: "", password: "" }, // single user form
 		users: [], // all users
@@ -13,7 +13,9 @@ export default function page() {
 	// ✅ Fetch all users
 	async function getUsers() {
 		try {
-			const res = await axios.get(`${process.env.NEXT_PUBLIC_BACKEND_URL}/users`);
+			const res = await axios.get(
+				`${process.env.NEXT_PUBLIC_BACKEND_URL}/users`
+			);
 			setData((prev) => ({ ...prev, users: res.data.users }));
 			console.log("Users fetched successfully");
 		} catch (err) {
@@ -39,9 +41,9 @@ export default function page() {
 		e.preventDefault();
 		try {
 			const res = await axios.post(
-        `${process.env.NEXT_PUBLIC_BACKEND_URL}/register-user`,
-        user
-      );
+				`${process.env.NEXT_PUBLIC_BACKEND_URL}/register-user`,
+				data.user
+			);
 			alert(res.data.msg || "User created successfully");
 
 			setData((prev) => ({
@@ -59,7 +61,9 @@ export default function page() {
 	async function handleDelete(id) {
 		if (!confirm("Are you sure you want to delete this user?")) return;
 		try {
-			await axios.delete(`${process.env.NEXT_PUBLIC_BACKEND_URL}/delete-user/${id}`);
+			await axios.delete(
+				`${process.env.NEXT_PUBLIC_BACKEND_URL}/delete-user/${id}`
+			);
 			alert("User deleted successfully");
 			getUsers();
 		} catch (err) {
@@ -79,7 +83,10 @@ export default function page() {
 	// ✅ Save after editing
 	async function saveEdit(id) {
 		try {
-			await axios.put(`${process.env.NEXT_PUBLIC_BACKEND_URL}/edit-user/${id}`, data.updatedUser);
+			await axios.put(
+				`${process.env.NEXT_PUBLIC_BACKEND_URL}/edit-user/${id}`,
+				data.updatedUser
+			);
 			alert("User updated successfully");
 			setData((prev) => ({
 				...prev,
@@ -95,7 +102,6 @@ export default function page() {
 		<div className="p-6 max-w-2xl mx-auto">
 			<h1 className="text-2xl font-bold mb-4">User Panel (Single useState)</h1>
 
-			
 			<form onSubmit={submitHandler} className="mb-6 space-y-3">
 				<input
 					type="text"
@@ -123,13 +129,11 @@ export default function page() {
 				/>
 				<button
 					type="submit"
-					className="bg-blue-500 text-white p-2 rounded w-full hover:bg-blue-600"
-				>
+					className="bg-blue-500 text-white p-2 rounded w-full hover:bg-blue-600">
 					Register
 				</button>
 			</form>
 
-			
 			<h2 className="text-xl font-semibold mb-3">User List</h2>
 			{data.users.length === 0 ? (
 				<p>No users found.</p>
@@ -153,7 +157,10 @@ export default function page() {
 											onChange={(e) =>
 												setData((prev) => ({
 													...prev,
-													updatedUser: { ...prev.updatedUser, name: e.target.value },
+													updatedUser: {
+														...prev.updatedUser,
+														name: e.target.value,
+													},
 												}))
 											}
 											className="border p-1 rounded"
@@ -170,7 +177,10 @@ export default function page() {
 											onChange={(e) =>
 												setData((prev) => ({
 													...prev,
-													updatedUser: { ...prev.updatedUser, email: e.target.value },
+													updatedUser: {
+														...prev.updatedUser,
+														email: e.target.value,
+													},
 												}))
 											}
 											className="border p-1 rounded"
@@ -183,22 +193,19 @@ export default function page() {
 									{data.editingUser === item._id ? (
 										<button
 											onClick={() => saveEdit(item._id)}
-											className="bg-green-500 text-white px-3 py-1 rounded"
-										>
+											className="bg-green-500 text-white px-3 py-1 rounded">
 											Save
 										</button>
 									) : (
 										<button
 											onClick={() => startEdit(item)}
-											className="bg-yellow-500 text-white px-3 py-1 rounded"
-										>
+											className="bg-yellow-500 text-white px-3 py-1 rounded">
 											Edit
 										</button>
 									)}
 									<button
 										onClick={() => handleDelete(item._id)}
-										className="bg-red-500 text-white px-3 py-1 rounded"
-									>
+										className="bg-red-500 text-white px-3 py-1 rounded">
 										Delete
 									</button>
 								</td>
@@ -209,4 +216,4 @@ export default function page() {
 			)}
 		</div>
 	);
-}*/
+}
